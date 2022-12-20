@@ -1,4 +1,4 @@
-module github.com/yuanlj-tea/jenkins
+module github.com/yuanlj-tea/gojenkins
 
 go 1.17
 
