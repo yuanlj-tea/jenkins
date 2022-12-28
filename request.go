@@ -138,7 +138,7 @@ func (r *Requester) SetClient(client *http.Client) *Requester {
 	return r
 }
 
-//Add auth on redirect if required.
+// Add auth on redirect if required.
 func (r *Requester) redirectPolicyFunc(req *http.Request, via []*http.Request) error {
 	if r.BasicAuth != nil {
 		req.SetBasicAuth(r.BasicAuth.Username, r.BasicAuth.Password)
@@ -153,6 +153,13 @@ func (r *Requester) Do(ctx context.Context, ar *APIRequest, responseStruct inter
 
 	fileUpload := false
 	var files []string
+	if strings.Contains(ar.Endpoint, "http") {
+		urlInfo, err := url.Parse(ar.Endpoint)
+		if err != nil {
+			return nil, err
+		}
+		ar.Endpoint = urlInfo.Path + "?" + urlInfo.RawQuery
+	}
 	URL, err := url.Parse(r.Base + ar.Endpoint + ar.Suffix)
 
 	if err != nil {
