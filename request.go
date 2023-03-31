@@ -153,13 +153,6 @@ func (r *Requester) Do(ctx context.Context, ar *APIRequest, responseStruct inter
 
 	fileUpload := false
 	var files []string
-	if strings.Contains(ar.Endpoint, "http") {
-		urlInfo, err := url.Parse(ar.Endpoint)
-		if err != nil {
-			return nil, err
-		}
-		ar.Endpoint = urlInfo.Path + "?" + urlInfo.RawQuery
-	}
 	URL, err := url.Parse(r.Base + ar.Endpoint + ar.Suffix)
 
 	if err != nil {
